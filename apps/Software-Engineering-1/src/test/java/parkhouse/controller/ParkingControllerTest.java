@@ -49,7 +49,7 @@ public class ParkingControllerTest {
 
 
     @Test
-    @DisplayName("Test if the added Car is in the getCars list")
+    @DisplayName("Test if the added Car is in the getCars listXXXXXX")
     void parkingControllerAddCarTest() {
         for (int i = 0; i < carList.size(); i++) {
             parkingController.addCar(carList.get(i));

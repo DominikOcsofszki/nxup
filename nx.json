@@ -4,5 +4,13 @@
 	},
 	"$schema": "./node_modules/nx/schemas/nx-schema.json",
 	"analytics": false,
-	"defaultBase": "main"
+	"defaultBase": "main",
+	"targetDefaults": {
+		"build": {
+			"cache": true
+		},
+		"test": {
+			"cache": true
+		}
+	}
 }

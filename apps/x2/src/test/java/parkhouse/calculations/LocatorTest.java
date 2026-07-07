@@ -36,7 +36,7 @@ public class LocatorTest {
     }
 
     @Test
-    @DisplayName("Test if correct space is assigned to entering cars22")
+    @DisplayName("Test if correct space is assigned to entering cars22XXX")
     public void locatorLocateTest() {
         for (ICar c : cars) {
         // for (ICar c : cars) {
