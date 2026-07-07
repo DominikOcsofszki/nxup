@@ -35,13 +35,14 @@ jobs:
         run: npm ci
 
       - name: Set SHAs
+        shell: bash
         run: |
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            echo "BASE_SHA=${{ github.event.pull_request.base.sha }}" >> $GITHUB_ENV
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            echo "BASE_SHA=${{ github.event.pull_request.base.sha }}" >> "$GITHUB_ENV"
           else
-            echo "BASE_SHA=${{ github.event.before }}" >> $GITHUB_ENV
+            echo "BASE_SHA=${{ github.event.before }}" >> "$GITHUB_ENV"
           fi
-          echo "HEAD_SHA=${{ github.sha }}" >> $GITHUB_ENV
+          echo "HEAD_SHA=${{ github.sha }}" >> "$GITHUB_ENV"
 
       - name: Show affected
         run: npx nx show projects --affected --base=$BASE_SHA --head=$HEAD_SHA
