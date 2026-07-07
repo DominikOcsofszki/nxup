@@ -31,15 +31,6 @@ jobs:
           java-version: "21"
           cache: maven
 
-      - name: Restore Nx cache
-        uses: actions/cache@v4
-        with:
-          path: .nx/cache
-          key: nx-${{ runner.os }}-${{ github.workflow }}-${{ github.ref_name }}-${{ hashFiles('nx.json', 'package-lock.json', '**/project.json') }}
-          restore-keys: |
-            nx-${{ runner.os }}-${{ github.workflow }}-${{ github.ref_name }}-
-            nx-${{ runner.os }}-${{ github.workflow }}-
-
       - name: Install dependencies
         run: npm ci
 
