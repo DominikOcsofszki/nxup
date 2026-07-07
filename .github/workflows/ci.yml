@@ -1,27 +1,27 @@
-name: Maven CI
+name: CI
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
+
+permissions:
+  contents: read
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        project:
-          - apps/Software-Engineering-1
-          - apps/x
-          - apps/x2
-
-    defaults:
-      run:
-        working-directory: ${{ matrix.project }}
-
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
 
       - uses: actions/setup-java@v4
         with:
@@ -29,4 +29,46 @@ jobs:
           java-version: "21"
           cache: maven
 
-      - run: mvn -B -ntp clean package
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Show affected
+        run: npx nx show projects --affected
+
+      - name: Build
+        run: npx nx affected -t build --parallel=4
+
+      - name: Test
+        run: npx nx affected -t test --parallel=4# 
+# name: Maven CI
+#
+# on:
+#   push:
+#     branches: [main]
+#   pull_request:
+#
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#
+#     strategy:
+#       matrix:
+#         project:
+#           - apps/Software-Engineering-1
+#           - apps/x
+#           - apps/x2
+#
+#     defaults:
+#       run:
+#         working-directory: ${{ matrix.project }}
+#
+#     steps:
+#       - uses: actions/checkout@v4
+#
+#       - uses: actions/setup-java@v4
+#         with:
+#           distribution: temurin
+#           java-version: "21"
+#           cache: maven
+#
+#       - run: mvn -B -ntp clean package
