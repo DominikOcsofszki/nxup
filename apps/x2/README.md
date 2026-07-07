@@ -1,6 +1,5 @@
 
 # Parkhaus Team 6
-# Parkhaus Team 6
 
 - **Dominik Ocsofszki**
 - **J S**
