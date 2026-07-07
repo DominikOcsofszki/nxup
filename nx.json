@@ -1,0 +1,35 @@
+{
+	"installation": {
+		"version": "23.0.1"
+	},
+	"$schema": "./node_modules/nx/schemas/nx-schema.json",
+	"analytics": false,
+	"name": "Software-Engineering-1",
+	"sourceRoot": "apps/Software-Engineering-1/src",
+	"targets": {
+		"build": {
+			"executor": "nx:run-commands",
+			"options": {
+				"cwd": "apps/Software-Engineering-1",
+				"command": "mvn clean package"
+			},
+			"outputs": [
+				"{projectRoot}/target"
+			]
+		},
+		"test": {
+			"executor": "nx:run-commands",
+			"options": {
+				"cwd": "apps/Software-Engineering-1",
+				"command": "mvn test"
+			}
+		},
+		"clean": {
+			"executor": "nx:run-commands",
+			"options": {
+				"cwd": "apps/Software-Engineering-1",
+				"command": "mvn clean"
+			}
+		}
+	}
+}

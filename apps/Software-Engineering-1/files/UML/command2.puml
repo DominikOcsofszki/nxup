@@ -1,0 +1,25 @@
+@startuml
+title Zustandsdiagramm Parkhaus-Ticket
+
+state fork <<fork>>
+state join <<join>>
+
+[*] --> User
+
+User --> fork
+
+fork --> entry :[enter]
+fork --> cancel :[undo]
+
+entry --> parking :[queue/execute]
+
+parking --> registered :[create]
+cancel --> unregistered :[remove]
+
+registered --> join
+unregistered --> join
+
+join --> User
+
+User -up-> [*]
+@enduml

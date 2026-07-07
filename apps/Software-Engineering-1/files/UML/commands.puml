@@ -1,0 +1,29 @@
+@startuml
+class parkhouse.commands.CarLeaveCommand {
+- ICar car
+- IParkingController controller
++ void execute()
++ void undo()
+}
+interface parkhouse.commands.ICommand {
+~ void execute()
+~ void undo()
+}
+class parkhouse.commands.CarEnterCommand {
+- ICar car
+- IParkingController controller
++ void execute()
++ void undo()
+}
+class parkhouse.commands.Commander {
+- List<ICommand> commandList
+- int cursor
++ void queue(ICommand)
++ void activate()
++ void undo()
+}
+
+parkhouse.commands.ICommand o-up- parkhouse.commands.Commander
+parkhouse.commands.ICommand <|.. parkhouse.commands.CarLeaveCommand
+parkhouse.commands.ICommand <|.. parkhouse.commands.CarEnterCommand
+@enduml

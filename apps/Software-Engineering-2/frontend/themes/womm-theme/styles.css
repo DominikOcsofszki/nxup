@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400&display=swap');
+
+
+
+
+/*Path: frontend/themes/womm-theme/styles.css*/
+
+/*public static final String Avenir = "Avenir Next LT Pro";*/
+/*public static final String Primary = StyleGuide.PrimaryFormats.blue;*/
+/*public static final String Success = StyleGuide.PrimaryFormats.green;*/
+/*public static final String Error = StyleGuide.PrimaryFormats.red;*/
+/*public static final String Font = StyleGuide.OpenSanse.Avenir;*/
+/*public static final String black = "#192434";*/
+/*public static final String grey = "#C4CBD3";*/
+/*public static final String blue = "1676F3";*/
+/*public static final String green = "15C15D";*/
+/*public static final String red = "FF4338";*/
+
+body {
+   /* background: linear-gradient( to right, #E7F1FD,#F3F5F7,#FFEBEA); /* Gradient w.o.m.m. colors 10 % */
+
+}
+
+html {
+    /*Has to be in this format, else not working with var:--womm-primary-color: 22,177,243;*/
+    /* --womm-primary-font: "Source Sans 3", sans-serif;   /*#16b1f3*/
+    --womm-primary-color: #1676F3; /*#0ACCFFFF blue 22,118,243 #1676F3*/
+    --womm-success-color: 21,193,93; /*#15C15D green 21,193,93 22,177,243*/
+    --womm-error-color: 255,67,58; /*#FF4338 255,67,58red*/
+    /*--this-ir-for-testing: #1676F3;22,118,24*/
+    --womm-base-color: #192434;
+    --womm-secondary-color: #afc6e9;
+
+    --lumo-font-family: "Source Sans 3", sans-serif;
+
+    --lumo-success-color: rgba(var(--womm-success-color), 1);
+    --lumo-error-color: rgba(var(--womm-error-color), 0.8);
+    --lumo-primary-text-color: rgba(var(--womm-base-color), 1);
+
+   /* background-image: url("../images/loginBackground.svg");*/
+    /*--lumo-base-color: rgba(var(--womm-base-color), 0.005);*/
+
+    /*--lumo-primary-color-50pct: rgba(var(--womm-primary-color), 0.5);*/
+    /*--lumo-primary-color-10pct: rgba(var(--womm-primary-color), 0.1);*/
+    /*--lumo-primary-color: rgba(var(--womm-primary-color), 1);*/
+
+}
+vaadin-grid.styling::part(accepted) {
+    background-color: rgba(var(--womm-success-color), 0.08);
+}
+
+vaadin-grid.styling::part(declined) {
+    background-color: rgba(var(--womm-error-color), 0.08);
+}
+.login-view {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Volle Höhe des Bildschirms */
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+    background:linear-gradient( to right, #E7F1FD,#F3F5F7,#FFEBEA);
+}
+
+vaadin-grid {
+    background-color: rgba(255, 255, 255, 1);
+}
+
+vaadin-grid::part(body-cell){
+    background-color: rgba(255, 255, 255, 1);
+    padding: 15px;
+}
+vaadin-grid::part(header-cell){
+    background-color: rgba(255, 255, 255, 1);
+    padding: 15px;
+
+}
+
+vaadin-app-layout::part(navbar){
+    /*background-color:rgba(0, 0, 0, 0.0);*/
+    background:linear-gradient( to right, #E7F1FD,#F3F5F7,#FFEBEA);
+
+}
+vaadin-app-layout::part(drawer) {
+   /* background-color:rgba(0, 0, 0, 0.05);
+    */
+    background:linear-gradient(to right,#E7F1FD, #EAF2FC);
+
+}
