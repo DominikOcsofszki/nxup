@@ -5,6 +5,8 @@ on:
     branches:
       - main
   pull_request:
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -30,45 +32,46 @@ jobs:
           cache: maven
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Show affected
-        run: npx nx show projects --affected
+      - name: Show affected (PR)
+        if: github.event_name == 'pull_request'
+        run: |
+          npx nx show projects --affected \
+            --base=${{ github.event.pull_request.base.sha }} \
+            --head=${{ github.sha }}
 
-      - name: Build
-        run: npx nx affected -t build --parallel=4
+      - name: Show affected (push)
+        if: github.event_name == 'push'
+        run: |
+          npx nx show projects --affected \
+            --base=${{ github.event.before }} \
+            --head=${{ github.sha }}
 
-      - name: Test
-        run: npx nx affected -t test --parallel=4# 
-# name: Maven CI
-#
-# on:
-#   push:
-#     branches: [main]
-#   pull_request:
-#
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
-#
-#     strategy:
-#       matrix:
-#         project:
-#           - apps/Software-Engineering-1
-#           - apps/x
-#           - apps/x2
-#
-#     defaults:
-#       run:
-#         working-directory: ${{ matrix.project }}
-#
-#     steps:
-#       - uses: actions/checkout@v4
-#
-#       - uses: actions/setup-java@v4
-#         with:
-#           distribution: temurin
-#           java-version: "21"
-#           cache: maven
-#
-#       - run: mvn -B -ntp clean package
+      - name: Build affected (PR)
+        if: github.event_name == 'pull_request'
+        run: |
+          npx nx affected -t build \
+            --base=${{ github.event.pull_request.base.sha }} \
+            --head=${{ github.sha }}
+
+      - name: Build affected (push)
+        if: github.event_name == 'push'
+        run: |
+          npx nx affected -t build \
+            --base=${{ github.event.before }} \
+            --head=${{ github.sha }}
+
+      - name: Test affected (PR)
+        if: github.event_name == 'pull_request'
+        run: |
+          npx nx affected -t test \
+            --base=${{ github.event.pull_request.base.sha }} \
+            --head=${{ github.sha }}
+
+      - name: Test affected (push)
+        if: github.event_name == 'push'
+        run: |
+          npx nx affected -t test \
+            --base=${{ github.event.before }} \
+            --head=${{ github.sha }}
