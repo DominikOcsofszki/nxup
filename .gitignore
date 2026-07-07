@@ -5,4 +5,4 @@
 .nx/self-healing
 .nx/migrate-runs
 
-node_module
+node_modules/
