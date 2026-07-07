@@ -1,0 +1,31 @@
+@startuml
+abstract class parkhouse.servlets.ParkhouseServlet {
+- {static} String RELOAD
+- {static} Logger LOGGER
+# int[] config
+~ {abstract}String name()
+~ {abstract}int max()
+~ {abstract}String config()
++ void doGet(HttpServletRequest,HttpServletResponse)
+# void doPost(HttpServletRequest,HttpServletResponse)
++ ServletContext getContext()
++ IParkingController parkingController()
++ Saver saver()
++ String getBody(HttpServletRequest)
++ void destroy()
+}
+class parkhouse.servlets.SecurityCORSFilter {
++ void doFilter(ServletRequest,ServletResponse,FilterChain)
++ void destroy()
++ void init(FilterConfig)
+}
+class parkhouse.servlets.MainServlet {
+~ int max()
++ String config()
+}
+
+
+javax.servlet.http.HttpServlet <|-- parkhouse.servlets.ParkhouseServlet
+parkhouse.servlets.Filter <|.. parkhouse.servlets.SecurityCORSFilter
+parkhouse.servlets.ParkhouseServlet <|-- parkhouse.servlets.MainServlet
+@enduml

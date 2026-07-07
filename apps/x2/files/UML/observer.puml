@@ -1,0 +1,99 @@
+@startuml
+class parkhouse.Observer.ClientCategoriesView {
+- IParkingModel model
+- List<ICar> cars
++ void update()
++ String toString()
+}
+class parkhouse.Observer.VehicleTypesView {
+- IParkingModel model
+- List<ICar> cars
++ void update()
++ String toString()
+}
+class parkhouse.Observer.CurrentCostsView {
+- IParkingModel model
+- HashMap<String,Long> currentCosts
++ void update()
++ Map<String,Long> getCurrentCosts()
++ String toString()
+}
+interface parkhouse.Observer.IObserver {
+~ void update()
+}
+class parkhouse.Observer.WeeklyEarningsView {
+- IParkingModel model
+- long weeklyEarnings
++ long getWeeklyEarnings()
++ void update()
++ String toString()
+}
+class parkhouse.Observer.EarningsByCategoriesView {
+- IParkingModel model
+- List<ICar> cars
++ void update()
++ String toString()
+}
+class parkhouse.Observer.DurationView {
+- IParkingModel model
+- List<ICar> cars
++ void update()
++ String toString()
+}
+class parkhouse.Observer.DailyEarningsView {
+- IParkingModel model
+- long dailyEarnings
++ long getDailyEarnings()
++ void update()
++ String toString()
+}
+interface parkhouse.Observer.IParkingModel {
+~ void addCar(ICar)
+~ void removeCar(ICar)
+~ void deleteCar(ICar)
+~ void addRemovedCar(ICar)
+~ List<ICar> getCarList()
+~ List<ICar> getRemovedCarList()
+~ List<ICar> getAllCars()
+~ long dailyEarnings()
+~ long weeklyEarnings()
+~ HashMap<String,Long> currentCost()
+}
+interface parkhouse.Observer.IObservable {
+~ void registerObserver(IObserver)
+~ void removeObserver(IObserver)
+~ void notifyObservers()
+}
+class parkhouse.Observer.ParkingModel {
+- List<ICar> carList
+- List<ICar> removedCarList
+- List<IObserver> observerList
++ void registerObserver(IObserver)
++ void removeObserver(IObserver)
++ void notifyObservers()
++ void addCar(ICar)
++ void removeCar(ICar)
++ void deleteCar(ICar)
++ void addRemovedCar(ICar)
+- long earningHelper(long)
++ long dailyEarnings()
++ long weeklyEarnings()
++ HashMap<String,Long> currentCost()
++ List<ICar> getCarList()
++ List<ICar> getRemovedCarList()
++ List<ICar> getAllCars()
+}
+
+
+parkhouse.Observer.IObservable <|-- parkhouse.Observer.IParkingModel
+parkhouse.Observer.IParkingModel <|.. parkhouse.Observer.ParkingModel
+parkhouse.Observer.ParkingModel o-- parkhouse.Observer.IObserver
+parkhouse.Observer.IObserver o-up- parkhouse.Observer.ParkingModel
+parkhouse.Observer.IObserver <|.. parkhouse.Observer.ClientCategoriesView
+parkhouse.Observer.IObserver <|.. parkhouse.Observer.VehicleTypesView
+parkhouse.Observer.IObserver <|.. parkhouse.Observer.CurrentCostsView
+parkhouse.Observer.IObserver <|.. parkhouse.Observer.WeeklyEarningsView
+parkhouse.Observer.IObserver <|.. parkhouse.Observer.EarningsByCategoriesView
+parkhouse.Observer.IObserver <|.. parkhouse.Observer.DurationView
+parkhouse.Observer.IObserver <|.. parkhouse.Observer.DailyEarningsView
+@enduml

@@ -1,0 +1,24 @@
+@startuml
+  rectangle Observer {
+    entity ClientCategoriesView
+    entity CurrentCostsView
+    entity DailyEarningsView
+    entity DurationView
+    entity EarningsByCategoriesView
+    entity VehicleTypesView
+    entity WeeklyEarningsView
+
+    control ParkingControl
+    boundary ParkhouseServlet
+
+   ClientCategoriesView ..> ParkingControl
+   CurrentCostsView ..> ParkingControl
+   DailyEarningsView ..> ParkingControl
+   DurationView ..> ParkingControl
+   EarningsByCategoriesView ..> ParkingControl
+   VehicleTypesView ..> ParkingControl
+   WeeklyEarningsView ..> ParkingControl
+   ParkingControl ..> ParkhouseServlet
+
+}
+@enduml

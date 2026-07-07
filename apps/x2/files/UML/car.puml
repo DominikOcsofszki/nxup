@@ -1,0 +1,73 @@
+@startuml
+rectangle Cars{
+interface ICar {
+~ int nr()
+~ int space()
+~ long timer()
+~ long begin()
+~ long end()
+~ long duration()
+~ long price()
+~ String ticket()
+~ String color()
+~ String category()
+~ String type()
+~ String license()
+~ boolean gone()
+~ void setSpace(int)
+~ void updateParams(String[])
+}
+abstract CarDecorator {
+- ICar car
++ int nr()
++ int space()
++ long timer()
++ long begin()
++ long end()
++ long duration()
++ long price()
++ String ticket()
++ String color()
++ String category()
++ String type()
++ String license()
++ boolean gone()
++ void setSpace(int)
++ void updateParams(String[])
++ String toString()
+}
+
+class Car {
+- String[] params
++ int nr()
++ int space()
++ long timer()
++ long begin()
++ long end()
++ long duration()
++ long price()
++ String ticket()
++ String color()
++ String category()
++ String type()
++ String license()
++ boolean gone()
++ void updateParams(String[])
++ void setSpace(int)
++ String toString()
+}
+class SanitizedCar {
++ String ticket()
++ String color()
++ String category()
++ String type()
++ String license()
++ String toString()
+}
+
+
+CarDecorator <|-- SanitizedCar
+ICar <|.. CarDecorator
+ICar <|.. Car
+}
+@enduml

@@ -1,0 +1,326 @@
+
+@startuml
+class parkhouse.util.Saver {
+- {static} Logger LOGGER
+- String name
+- boolean init
+- boolean initConfig
++ boolean init()
++ boolean initConfig()
++ void saveCars(IParkingController)
++ void loadCars(IParkingController)
++ void saveConfig(int[])
++ int[] loadConfig()
+}
+interface parkhouse.car.ICar {
+~ int nr()
+~ int space()
+~ long timer()
+~ long begin()
+~ long end()
+~ long duration()
+~ long price()
+~ String ticket()
+~ String color()
+~ String category()
+~ String type()
+~ String license()
+~ boolean gone()
+~ void setSpace(int)
+~ void updateParams(String[])
+}
+class parkhouse.util.Finder {
++ {static} ICar findCar(Iterable<ICar>,Function<ICar,Object>,Object)
+}
+class parkhouse.controller.ParkingController {
+- IParkingModel parkingModel
+- DailyEarningsView dailyEarningsView
+- WeeklyEarningsView weeklyEarningsView
+- CurrentCostsView currentCostsView
+- ClientCategoriesView clientCategoriesView
+- VehicleTypesView vehicleTypesView
+- EarningsByCategoriesView earningsByCategoriesView
+- DurationView durationView
+- Commander commander
++ List<ICar> getCars()
++ List<ICar> getRemovedCars()
++ List<ICar> getAllCars()
++ void addCar(ICar)
++ void removeCar(ICar)
++ void deleteCar(ICar)
++ void addRemovedCar(ICar)
++ DailyEarningsView dailyEarningsView()
++ WeeklyEarningsView weeklyEarningsView()
++ CurrentCostsView currentCostView()
++ ClientCategoriesView clientCategoriesView()
++ VehicleTypesView vehicleTypeView()
++ EarningsByCategoriesView earningsByCategoriesView()
++ DurationView durationView()
++ Commander commander()
+}
+class parkhouse.views.EarningsByCategoriesView {
+- IParkingModel model
+- List<ICar> cars
++ void update()
++ String toString()
+}
+interface parkhouse.models.IParkingModel {
+~ void addCar(ICar)
+~ void removeCar(ICar)
+~ void deleteCar(ICar)
+~ void addRemovedCar(ICar)
+~ List<ICar> getCarList()
+~ List<ICar> getRemovedCarList()
+~ List<ICar> getAllCars()
+~ long dailyEarnings()
+~ long weeklyEarnings()
+~ HashMap<String,Long> currentCost()
+}
+class parkhouse.config.Config {
++ {static} int SIMULATION_SPEED
++ {static} int TIME_SHIFT
++ {static} int WAIT_REDLIGHT_SHIFT
++ {static} String[] CLIENT_CATEGORIES
++ {static} String[] VEHICLE_TYPES
++ {static} String[] PRICE_FACTOR
++ {static} int DEFAULT_MAX_CARS
++ {static} int DEFAULT_OPEN_FROM
++ {static} int DEFAULT_OPEN_TO
+}
+class parkhouse.car.Car {
+- String[] params
++ int nr()
++ int space()
++ long timer()
++ long begin()
++ long end()
++ long duration()
++ long price()
++ String ticket()
++ String color()
++ String category()
++ String type()
++ String license()
++ boolean gone()
++ void updateParams(String[])
++ void setSpace(int)
++ String toString()
+}
+interface parkhouse.models.IObservable {
+~ void registerObserver(IObserver)
+~ void removeObserver(IObserver)
+~ void notifyObservers()
+}
+class parkhouse.calculations.Price {
++ {static} String format(long)
++ {static} double priceFactor(ICar)
+}
+class parkhouse.models.ParkingModel {
+- List<ICar> carList
+- List<ICar> removedCarList
+- List<IObserver> observerList
++ void registerObserver(IObserver)
++ void removeObserver(IObserver)
++ void notifyObservers()
++ void addCar(ICar)
++ void removeCar(ICar)
++ void deleteCar(ICar)
++ void addRemovedCar(ICar)
+- long earningHelper(long)
++ long dailyEarnings()
++ long weeklyEarnings()
++ HashMap<String,Long> currentCost()
++ List<ICar> getCarList()
++ List<ICar> getRemovedCarList()
++ List<ICar> getAllCars()
+}
+class parkhouse.commands.Commander {
+- List<ICommand> commandList
+- int cursor
++ void queue(ICommand)
++ void activate()
++ void undo()
+}
+class parkhouse.views.ClientCategoriesView {
+- IParkingModel model
+- List<ICar> cars
++ void update()
++ String toString()
+}
+class parkhouse.security.SanitizedCar {
++ String ticket()
++ String color()
++ String category()
++ String type()
++ String license()
++ String toString()
+}
+class parkhouse.servlets.SecurityCORSFilter {
++ void doFilter(ServletRequest,ServletResponse,FilterChain)
++ void destroy()
++ void init(FilterConfig)
+}
+class parkhouse.views.VehicleTypesView {
+- IParkingModel model
+- List<ICar> cars
++ void update()
++ String toString()
+}
+interface parkhouse.views.IObserver {
+~ void update()
+}
+class parkhouse.calculations.Locator {
++ {static} int locate(IParkingController,int)
+}
+class parkhouse.util.Time {
++ {static} long INSTANCE_START_DATE
++ {static} long MILLISECONDS_PER_DAY
++ {static} long MILLISECONDS_PER_WEEK
++ {static} long diff(long,long)
++ {static} long now()
++ {static} long simTime(long)
++ {static} long simNow()
+}
+interface parkhouse.commands.ICommand {
+~ void execute()
+~ void undo()
+}
+class parkhouse.util.Jsonify {
++ {static} JsonArray carsAsJsonArray(List<ICar>,Function<ICar,Object>)
++ {static} JsonObject carsCount(List<ICar>,Function<ICar,Object>)
++ {static} JsonObject plot(JsonArray,JsonArray,String,String)
++ {static} JsonArray getKeys(JsonObject)
++ {static} JsonArray getValues(JsonObject)
+}
+class parkhouse.views.DurationView {
+- IParkingModel model
+- List<ICar> cars
++ void update()
++ String toString()
+}
+class parkhouse.commands.CarEnterCommand {
+- ICar car
+- IParkingController controller
++ void execute()
++ void undo()
+}
+class parkhouse.calculations.Stats {
++ {static} long minCars(List<ICar>)
++ {static} long maxCars(List<ICar>)
++ {static} long sumCars(List<ICar>)
++ {static} long avgCars(List<ICar>)
+}
+class parkhouse.util.Tableize {
++ {static} String table(String[],String[][])
+}
+class parkhouse.car.CarTypes {
+- {static} Map<String,CarTypes> types
+- double factor
++ {static} CarTypes getInstance(String)
++ double getFactor()
++ void setFactor(double)
+}
+class parkhouse.servlets.MainServlet {
+~ String name()
+~ int max()
++ String config()
+}
+class parkhouse.commands.CarLeaveCommand {
+- ICar car
+- IParkingController controller
++ void execute()
++ void undo()
+}
+abstract class parkhouse.servlets.ParkhouseServlet {
+- {static} String RELOAD
+- {static} Logger LOGGER
+# int[] config
+~ {abstract}String name()
+~ {abstract}int max()
+~ {abstract}String config()
++ void doGet(HttpServletRequest,HttpServletResponse)
+# void doPost(HttpServletRequest,HttpServletResponse)
++ ServletContext getContext()
++ IParkingController parkingController()
++ Saver saver()
++ String getBody(HttpServletRequest)
++ void destroy()
+}
+class parkhouse.views.CurrentCostsView {
+- IParkingModel model
+- HashMap<String,Long> currentCosts
++ void update()
++ Map<String,Long> getCurrentCosts()
++ String toString()
+}
+interface parkhouse.controller.IParkingController {
+~ void addCar(ICar)
+~ void removeCar(ICar)
+~ void deleteCar(ICar)
+~ void addRemovedCar(ICar)
+~ List<ICar> getCars()
+~ List<ICar> getRemovedCars()
+~ List<ICar> getAllCars()
+~ DailyEarningsView dailyEarningsView()
+~ WeeklyEarningsView weeklyEarningsView()
+~ CurrentCostsView currentCostView()
+~ ClientCategoriesView clientCategoriesView()
+~ VehicleTypesView vehicleTypeView()
+~ EarningsByCategoriesView earningsByCategoriesView()
+~ DurationView durationView()
+~ Commander commander()
+}
+class parkhouse.views.WeeklyEarningsView {
+- IParkingModel model
+- long weeklyEarnings
++ long getWeeklyEarnings()
++ void update()
++ String toString()
+}
+abstract class parkhouse.car.CarDecorator {
+- ICar car
++ int nr()
++ int space()
++ long timer()
++ long begin()
++ long end()
++ long duration()
++ long price()
++ String ticket()
++ String color()
++ String category()
++ String type()
++ String license()
++ boolean gone()
++ void setSpace(int)
++ void updateParams(String[])
++ String toString()
+}
+class parkhouse.views.DailyEarningsView {
+- IParkingModel model
+- long dailyEarnings
++ long getDailyEarnings()
++ void update()
++ String toString()
+}
+
+
+parkhouse.controller.IParkingController <|.. parkhouse.controller.ParkingController
+parkhouse.views.IObserver <|.. parkhouse.views.EarningsByCategoriesView
+parkhouse.models.IObservable <|-- parkhouse.models.IParkingModel
+parkhouse.car.ICar <|.. parkhouse.car.Car
+parkhouse.models.IParkingModel <|.. parkhouse.models.ParkingModel
+parkhouse.views.IObserver <|.. parkhouse.views.ClientCategoriesView
+parkhouse.car.CarDecorator <|-- parkhouse.security.SanitizedCar
+parkhouse.servlets.Filter <|.. parkhouse.servlets.SecurityCORSFilter
+parkhouse.views.IObserver <|.. parkhouse.views.VehicleTypesView
+parkhouse.views.IObserver <|.. parkhouse.views.DurationView
+parkhouse.commands.ICommand <|.. parkhouse.commands.CarEnterCommand
+parkhouse.servlets.ParkhouseServlet <|-- parkhouse.servlets.MainServlet
+parkhouse.commands.ICommand <|.. parkhouse.commands.CarLeaveCommand
+javax.servlet.http.HttpServlet <|-- parkhouse.servlets.ParkhouseServlet
+parkhouse.views.IObserver <|.. parkhouse.views.CurrentCostsView
+parkhouse.views.IObserver <|.. parkhouse.views.WeeklyEarningsView
+parkhouse.car.ICar <|.. parkhouse.car.CarDecorator
+parkhouse.views.IObserver <|.. parkhouse.views.DailyEarningsView
+@enduml

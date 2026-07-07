@@ -1,0 +1,32 @@
+@startuml
+left to right direction
+skinparam actorstyle awesome
+skinparam packageStyle rectangle
+actor Client
+actor Manager
+
+Client -- (enter)
+Client -- (find parking spot)
+Client -- (pay)
+Client -- (leave)
+(enter) .> (track duration) : <<include>>
+(track duration) .> (calculate saldo) : <<include>>
+(calculate saldo) .> (pay) : <<include>>
+(pay) .> (leave) <<include>>
+
+Client -- (get prices)
+Client -- (get free parking spots)
+Client -- (get business hours)
+
+Manager -- (set prices by type)
+Manager -- (set buisness hours)
+Manager -- (configure parking space count)
+(configure parking space count) .> (find parking spot) : <<include>>
+(set prices by type) .> (get prices) : <<include>>
+(set prices by type) .> (calculate saldo) : <<include>>
+(set buisness hours) .> (get business hours) : <<extend>>
+
+Manager -- (get average/total earnings)
+Manager -- (get statistics)
+(pay) .> (get average/total earnings) : <<entend>>
+@enduml
